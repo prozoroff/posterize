@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Pixastic</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="jquery-ui.css" />
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>
+    <script src="pixastic.js"></script>
+    <script src="pixastic.effects.js"></script>
+    <script src="pixastic.worker.js"></script>
+    <script>
+        var r, g,b = 0;
+
+        window.onload = function() {
+             
+            function doTest(test) {
+                var img = document.getElementById("original-image"),
+                    canvas = document.getElementById("output-canvas"),
+                    ctx = canvas.getContext("2d"),
+                    P;
+
+                canvas.style.display = "none";
+                canvas.width = img.width;
+                canvas.height = img.height;
+                canvas.title = test.effect;
+                ctx.drawImage(img, 0, 0);
+
+                P = new Pixastic(ctx);
+                P[test.effect](test.options).done(function() {
+                    canvas.style.display = "block";
+                }, function(p) {
+                });
+            }
+
+            $("#slider_r").slider(
+                    {
+                        value:3,
+                        min: 0,
+                        max: 6,
+                        step: 1,
+                        slide: function( event, ui ) {
+
+                            r =  $('#slider_r').slider('value');
+
+                            var test =
+                            {
+                                effect : "posterize",
+                                options : {
+                                    levels_r : r,
+                                    levels_g : g,
+                                    levels_b : b
+                                }
+                            };
+
+                            doTest(test);
+                        }
+                    }
+            );
+
+            $("#slider_g").slider(
+                    {
+                        value:3,
+                        min: 0,
+                        max: 6,
+                        step: 1,
+                        slide: function( event, ui ) {
+
+                            g =  $('#slider_g').slider('value');
+
+                            var test =
+                            {
+                                effect : "posterize",
+                                options : {
+                                    levels_r : r,
+                                    levels_g : g,
+                                    levels_b : b
+                                }
+                            };
+
+                            doTest(test);
+                        }
+                    }
+            );
+
+            $("#slider_b").slider(
+                    {
+                        value:3,
+                        min: 0,
+                        max: 6,
+                        step: 1,
+                        slide: function( event, ui ) {
+
+                            b =  $('#slider_b').slider('value');
+
+                            var test =
+                            {
+                                effect : "posterize",
+                                options : {
+                                    levels_r : r,
+                                    levels_g : g,
+                                    levels_b : b
+                                }
+                            };
+
+                            doTest(test);
+                        }
+                    }
+            );
+
+
+        }
+    </script>
+
+</head>
+<body>
+
+    <div id="slider_r" style="width: 60%; margin-left: auto; margin-right: auto; margin-top: 10px"></div>
+    <div id="slider_g" style="width: 60%; margin-left: auto; margin-right: auto; margin-top: 10px"></div>
+    <div id="slider_b" style="width: 60%; margin-left: auto; margin-right: auto; margin-top: 10px"></div>
+    <div id="images" style="width: 55%; margin-left: auto; margin-right: auto; margin-top: 10px">
+        <table>
+        <tr>
+            <th><img src="sample-images/Lenna.png" id="original-image" ></th>
+            <th><canvas id="output-canvas" ></canvas></th>
+        </tr>
+        </table>
+    </div>
+
+
+</body>
+</html>
